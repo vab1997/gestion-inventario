@@ -1,7 +1,13 @@
-export default function Input({ type, placeholder }) {
+export default function Input({ type, placeholder, value, onChange }) {
   return (
     <>
-      <input type={type} placeholder={placeholder} />
+      <input
+        type={type}
+        placeholder={placeholder}
+        autoComplete="off"
+        value={value}
+        onChange={onChange}
+      />
       <style jsx>{`
         input {
           font-size: 16px;

@@ -1,7 +1,7 @@
 export default function Button({ children, onclick, title }) {
   return (
     <>
-      <button onclick={onclick} title={title}>
+      <button onClick={onclick} title={title}>
         {children}
       </button>
       <style jsx>{`

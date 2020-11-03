@@ -1,39 +1,96 @@
-import Head from "next/head";
-import Link from "next/link";
+import { useState, useEffect } from "react";
 import Button from "components/Button";
+import Input from "components/Input";
 import Inventario from "components/icons/Inventario";
 import Gmail from "components/icons/Gmail";
 import GitHub from "components/icons/Github";
+import Head from "next/head";
+import Link from "next/link";
+
+import {
+  loginEmailPassword,
+  loginConGithub,
+  loginConGoogle,
+} from "firebase/client";
+import { useRouter } from "next/router";
+import useUser, { USER_STATE } from "hooks/useUser";
+import Spinner from "components/Spinner";
 
 export default function Home() {
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
+
+  const router = useRouter();
+  const user = useUser();
+
+  useEffect(() => {
+    user && router.replace("/home");
+  }, [user]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    loginEmailPassword({ email, password }).catch((error) =>
+      console.log(error)
+    );
+  };
+
+  const handleClickGithub = () => {
+    loginConGithub().catch((error) => {
+      console.log(error);
+    });
+  };
+
+  const handleClickGoogle = () => {
+    loginConGoogle().catch((error) => {
+      console.log(error);
+    });
+  };
+
   return (
     <>
       <Head>
         <title>Login</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
       <section>
         <h1>Gestión de Inventario</h1>
-        <Inventario width={50} height={50} fill="#fff" />
-        <div>
-          <h2>Iniciar Sesión</h2>
-          <form>
-            <input type="text" placeholder="nombre" />
-            <input type="password" placeholder="password" />
-            <Button>Iniciar Sesión</Button>
-          </form>
-          <section className="login-cuentas">
-            <Button title="Github">
-              <GitHub fill="#fff" width={24} height={24} />
-            </Button>
-            <Button title="Gmail">
-              <Gmail fill="#fff" width={24} height={24} />
-            </Button>
-          </section>
-          <Link href="/nuevo-usuario">
-            <a>Crear Nueva Cuenta</a>
-          </Link>
-        </div>
+        <Inventario width={64} height={64} fill="#fff" />
+        {user === USER_STATE.NOT_LOGGED && (
+          <div>
+            <h2>Iniciar Sesión</h2>
+            <form onSubmit={handleSubmit}>
+              <label>Email: </label>
+              <Input
+                type={"text"}
+                placeholder={"Email"}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <label>Contraseña: </label>
+              <Input
+                type={"password"}
+                placeholder={"password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <Button>Iniciar Sesión</Button>
+            </form>
+            <section className="login-cuentas">
+              <Button onclick={handleClickGithub} title="Github">
+                <GitHub fill="#fff" width={24} height={24} />
+              </Button>
+              <Button onclick={handleClickGoogle} title="Gmail">
+                <Gmail fill="#fff" width={24} height={24} />
+              </Button>
+            </section>
+            <Link href="/nuevo-usuario">
+              <a>Crear Nueva Cuenta</a>
+            </Link>
+          </div>
+        )}
+        <span>{user === USER_STATE.NOT_KNOW && <Spinner />}</span>
       </section>
 
       <style jsx>{`
@@ -54,6 +111,10 @@ export default function Home() {
           padding: 10px;
           margin: 8px;
         }
+        span {
+          margin-top: 32px;
+          margin-right: 80px;
+        }
         .login-cuentas {
           background: #fff;
           display: flex;
@@ -64,6 +125,7 @@ export default function Home() {
           color: #fff;
           margin-bottom: 4px;
           font-weight: 600;
+          font-size: 24px;
         }
         h2 {
           text-align: center;
@@ -75,14 +137,6 @@ export default function Home() {
           flex-direction: column;
           justify-content: center;
           margin: 0;
-        }
-        input {
-          font-size: 16px;
-          border-radius: 50px;
-          border: solid 1px;
-          margin: 8px;
-          padding: 8px;
-          outline: none;
         }
         a {
           display: flex;
