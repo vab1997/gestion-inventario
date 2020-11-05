@@ -7,13 +7,6 @@ export default function Sidebar() {
         <h2>Menu</h2>
         <ul>
           <li>
-            <Link href="">
-              <a>
-                <span>Dashboard</span>
-              </a>
-            </Link>
-          </li>
-          <li>
             <Link href="/nuevo-equipo">
               <a>
                 <span>Gestion Equipos</span>
@@ -38,6 +31,7 @@ export default function Sidebar() {
       </div>
       <style jsx>{`
         div {
+          background: #eee;
           padding: 0 8px 8px 12px;
           height: 100%;
           width: 20%;

@@ -20,6 +20,5 @@ export default function useUser() {
     user === USER_STATE.NOT_LOGGED && router.push("/");
   }, [user]);
 
-  console.log(user);
   return user;
 }

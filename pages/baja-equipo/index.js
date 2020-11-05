@@ -1,13 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "components/Header";
 import Sidebar from "components/Sidebar";
 import Input from "components/Input";
 import Button from "components/Button";
-
-import { registrarEquiposPerifericos } from "firebase/client";
 import Link from "next/link";
 
-export default function NuevoEquipo() {
+import useSearch from "hooks/useSearch";
+import { obtenerEquipos, bajaEquipo } from "firebase/client";
+
+export default function BajaEquipo() {
   const [codigo, setCodigo] = useState("");
   const [descripcion, setDescripcion] = useState("");
   const [fecha, setFecha] = useState("");
@@ -16,7 +17,18 @@ export default function NuevoEquipo() {
   const [teclado, setTeclado] = useState("");
   const [mouse, setMouse] = useState("");
 
+  const [buscar, setBuscar] = useState("");
+  const [equipos, setEquipos] = useState();
+  const [perifericos, setPerifericos] = useState();
+
+  const [codigoBaja, setCodigoBaja] = useState({});
+
+  useEffect(() => {
+    obtenerEquipos(setEquipos, setPerifericos);
+  }, []);
+
   const limpiarInputs = () => {
+    setCodigoBaja("");
     setCodigo("");
     setDescripcion("");
     setFecha("");
@@ -26,20 +38,40 @@ export default function NuevoEquipo() {
     setMouse("");
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const setInputs = (filtro) => {
+    setCodigo(filtro.codigo);
+    setDescripcion(filtro.descripcion);
+    setFecha(filtro.fecha);
+    setUbicacion(filtro.ubicacion);
+    setMonitor(filtro.monitor);
+    setTeclado(filtro.teclado);
+    setMouse(filtro.mouse);
+  };
 
-    registrarEquiposPerifericos({
-      codigo,
-      descripcion,
-      fecha,
-      ubicacion,
-      monitor,
-      teclado,
-      mouse,
-    });
+  const handleClickBuscar = () => {
+    const filtro = useSearch(equipos, perifericos, buscar);
 
-    limpiarInputs();
+    if (filtro !== undefined) {
+      setCodigoBaja({
+        idEquipo: filtro.idEquipo,
+        idPeriferico: filtro.idPeriferico,
+      });
+      setInputs(filtro);
+    } else {
+      setCodigoBaja({});
+      limpiarInputs();
+    }
+  };
+
+  const handleClickEliminar = () => {
+    if (codigoBaja) {
+      try {
+        bajaEquipo(codigoBaja);
+        limpiarInputs();
+      } catch (error) {
+        console.log(error);
+      }
+    }
   };
 
   return (
@@ -67,7 +99,17 @@ export default function NuevoEquipo() {
             </Link>
           </div>
           <div className="formulario">
-            <form onSubmit={handleSubmit}>
+            <div className="container-form">
+              <div className="buscador">
+                <Input
+                  type="text"
+                  placeholder="Buscar Equipo"
+                  value={buscar}
+                  onChange={(e) => setBuscar(e.target.value)}
+                />
+                <Button onClick={handleClickBuscar}>Buscar</Button>
+              </div>
+              {codigoBaja.length === 0 && <h4>No se encontro equipo.</h4>}
               <div className="inputs-container">
                 <div className="inputs">
                   <h3>Informacion del Equipo</h3>
@@ -125,8 +167,8 @@ export default function NuevoEquipo() {
                   />
                 </div>
               </div>
-              <Button>Guardar</Button>
-            </form>
+              <Button onClick={handleClickEliminar}>Eliminar</Button>
+            </div>
           </div>
         </section>
       </div>
@@ -164,14 +206,22 @@ export default function NuevoEquipo() {
           width: 80%;
           margin: 0 32px;
         }
-        form {
+        .container-form {
           display: flex;
           flex-direction: column;
-          justify-content: space-between;
+        }
+        .buscador {
+          display: flex;
+          width: 50%;
+          margin: 0 32px;
         }
         h1 {
           text-align: center;
           color: red;
+        }
+        h4 {
+          color: red;
+          margin: 0 32px;
         }
       `}</style>
     </>

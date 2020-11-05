@@ -11,12 +11,14 @@ export default function Header() {
       </header>
       <style jsx>{`
         header {
+          background: #eee;
           display: flex;
           justify-content: space-between;
-          border-bottom: 1px solid #eee;
+          border-bottom: 1px solid black;
           padding: 8px 10px;
           font-size: 16px;
-          overflow: hidden;
+          position: sticky;
+          top: 0;
         }
       `}</style>
     </>

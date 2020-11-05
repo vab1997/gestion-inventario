@@ -1,5 +1,6 @@
 import firebase from "firebase/app";
 import auth from "firebase/auth";
+import firestore from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCnJLlfKkdJvZEm_Tznd0nFB-SQ-f3VRFw",
@@ -12,6 +13,8 @@ const firebaseConfig = {
 };
 
 !firebase.apps.length && firebase.initializeApp(firebaseConfig);
+
+const db = firebase.firestore();
 
 export const crearUsuarioEmailPassword = async ({
   nombre,
@@ -57,4 +60,53 @@ export const onAuthStateChanged = (onchange) => {
 
     onchange(normalizeUser);
   });
+};
+
+export const registrarEquiposPerifericos = ({
+  codigo,
+  descripcion,
+  fecha,
+  ubicacion,
+  monitor,
+  teclado,
+  mouse,
+}) => {
+  db.collection("equipos").add({
+    codigo,
+    descripcion,
+    fecha,
+    ubicacion,
+  });
+  return db.collection("perifericos").add({
+    codigoEquipo: codigo,
+    monitor,
+    teclado,
+    mouse,
+  });
+};
+
+export const mapObject = (doc) => {
+  const data = doc.data();
+  const id = doc.id;
+
+  return {
+    ...data,
+    id,
+  };
+};
+
+export const obtenerEquipos = (callbackEquipos, callbackPerifericos) => {
+  db.collection("equipos").onSnapshot(({ docs }) => {
+    const equipos = docs.map(mapObject);
+    callbackEquipos(equipos);
+  });
+  db.collection("perifericos").onSnapshot(({ docs }) => {
+    const perifericos = docs.map(mapObject);
+    callbackPerifericos(perifericos);
+  });
+};
+
+export const bajaEquipo = ({ idEquipo, idPeriferico }) => {
+  db.collection("equipos").doc(idEquipo).delete();
+  return db.collection("perifericos").doc(idPeriferico).delete();
 };
