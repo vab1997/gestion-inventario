@@ -60,7 +60,7 @@ export default function NuevoEquipo() {
                 <Button>Baja</Button>
               </a>
             </Link>
-            <Link href="">
+            <Link href="/modificacion-equipo">
               <a>
                 <Button>Modificacion</Button>
               </a>

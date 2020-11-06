@@ -6,9 +6,9 @@ import Button from "components/Button";
 import Link from "next/link";
 
 import useSearch from "hooks/useSearch";
-import { obtenerEquipos, bajaEquipo } from "firebase/client";
+import { obtenerEquipos, actualizarEquipo } from "firebase/client";
 
-export default function BajaEquipo() {
+export default function ModificacionEquipo() {
   const [codigo, setCodigo] = useState("");
   const [descripcion, setDescripcion] = useState("");
   const [fecha, setFecha] = useState("");
@@ -21,14 +21,14 @@ export default function BajaEquipo() {
   const [equipos, setEquipos] = useState();
   const [perifericos, setPerifericos] = useState();
 
-  const [codigoBaja, setCodigoBaja] = useState({});
+  const [codigoModificacion, setCodigoModificacion] = useState({});
 
   useEffect(() => {
     obtenerEquipos(setEquipos, setPerifericos);
   }, []);
 
   const limpiarInputs = () => {
-    setCodigoBaja("");
+    setCodigoModificacion("");
     setCodigo("");
     setDescripcion("");
     setFecha("");
@@ -52,21 +52,30 @@ export default function BajaEquipo() {
     const filtro = useSearch(equipos, perifericos, buscar);
 
     if (filtro !== undefined) {
-      setCodigoBaja({
+      setCodigoModificacion({
         idEquipo: filtro.idEquipo,
         idPeriferico: filtro.idPeriferico,
       });
       setInputs(filtro);
     } else {
-      setCodigoBaja({});
+      setCodigoModificacion({});
       limpiarInputs();
     }
   };
 
-  const handleClickEliminar = () => {
-    if (codigoBaja) {
+  const handleClickActualizar = () => {
+    if (codigoModificacion) {
       try {
-        bajaEquipo(codigoBaja);
+        actualizarEquipo({
+          idEquipo: codigoModificacion.idEquipo,
+          idPeriferico: codigoModificacion.idPeriferico,
+          descripcion,
+          fecha,
+          ubicacion,
+          monitor,
+          teclado,
+          mouse,
+        });
         limpiarInputs();
       } catch (error) {
         console.log(error);
@@ -109,7 +118,9 @@ export default function BajaEquipo() {
                 />
                 <Button onClick={handleClickBuscar}>Buscar</Button>
               </div>
-              {codigoBaja.length === 0 && <h4>No se encontro equipo.</h4>}
+              {codigoModificacion.length === 0 && (
+                <h4>No se encontro equipo.</h4>
+              )}
               <div className="inputs-container">
                 <div className="inputs">
                   <h3>Informacion del Equipo</h3>
@@ -167,7 +178,7 @@ export default function BajaEquipo() {
                   />
                 </div>
               </div>
-              <Button onClick={handleClickEliminar}>Eliminar</Button>
+              <Button onClick={handleClickActualizar}>Actualizar</Button>
             </div>
           </div>
         </section>

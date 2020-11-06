@@ -110,3 +110,21 @@ export const bajaEquipo = ({ idEquipo, idPeriferico }) => {
   db.collection("equipos").doc(idEquipo).delete();
   return db.collection("perifericos").doc(idPeriferico).delete();
 };
+
+export const actualizarEquipo = ({
+  idEquipo,
+  idPeriferico,
+  descripcion,
+  fecha,
+  ubicacion,
+  monitor,
+  teclado,
+  mouse,
+}) => {
+  db.collection("equipos")
+    .doc(idEquipo)
+    .update({ descripcion: descripcion, fecha: fecha, ubicacion: ubicacion });
+  db.collection("perifericos")
+    .doc(idPeriferico)
+    .update({ monitor: monitor, teclado: teclado, mouse: mouse });
+};

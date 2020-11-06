@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Gestion from "components/icons/Gestion";
 
 export default function Sidebar() {
   return (
@@ -7,6 +8,7 @@ export default function Sidebar() {
         <h2>Menu</h2>
         <ul>
           <li>
+            {/* <Gestion width={32} height={32} /> */}
             <Link href="/nuevo-equipo">
               <a>
                 <span>Gestion Equipos</span>
@@ -54,6 +56,9 @@ export default function Sidebar() {
         a {
           color: black;
           text-decoration: none;
+        }
+        span {
+          text-align: center;
         }
       `}</style>
     </>
