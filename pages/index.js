@@ -42,6 +42,7 @@ export default function Home() {
   };
 
   const handleClickGoogle = () => {
+    console.log("asd");
     loginConGoogle().catch((error) => {
       console.log(error);
     });
@@ -78,10 +79,10 @@ export default function Home() {
               <Button>Iniciar Sesión</Button>
             </form>
             <section className="login-cuentas">
-              <Button onclick={handleClickGithub} title="Github">
+              <Button onClick={handleClickGithub} title="Github">
                 <GitHub fill="#fff" width={24} height={24} />
               </Button>
-              <Button onclick={handleClickGoogle} title="Gmail">
+              <Button onClick={handleClickGoogle} title="Gmail">
                 <Gmail fill="#fff" width={24} height={24} />
               </Button>
             </section>

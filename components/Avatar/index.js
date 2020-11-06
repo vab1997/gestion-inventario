@@ -8,7 +8,9 @@ export default function Avatar() {
       {user === USER_STATE.NOT_KNOW && null}
       {user && (
         <div>
-          <img src={user.photoURL} alt={user.displayName} />
+          {user.photoURL ? (
+            <img src={user.photoURL} alt={user.displayName} />
+          ) : null}
           <strong>{user.displayName}</strong>
         </div>
       )}

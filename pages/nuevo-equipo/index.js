@@ -16,6 +16,9 @@ export default function NuevoEquipo() {
   const [teclado, setTeclado] = useState("");
   const [mouse, setMouse] = useState("");
 
+  const [verificarRegistro, setVerificarRegistro] = useState(null);
+  const [validarForm, setValidarForm] = useState(null);
+
   const limpiarInputs = () => {
     setCodigo("");
     setDescripcion("");
@@ -29,15 +32,35 @@ export default function NuevoEquipo() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    registrarEquiposPerifericos({
-      codigo,
-      descripcion,
-      fecha,
-      ubicacion,
-      monitor,
-      teclado,
-      mouse,
-    });
+    if (
+      codigo.trim() !== "" &&
+      descripcion.trim() !== "" &&
+      fecha.trim() !== "" &&
+      ubicacion.trim() !== "" &&
+      monitor.trim() !== "" &&
+      teclado.trim() !== "" &&
+      mouse.trim() !== ""
+    ) {
+      registrarEquiposPerifericos({
+        codigo,
+        descripcion,
+        fecha,
+        ubicacion,
+        monitor,
+        teclado,
+        mouse,
+      })
+        .then(() => {
+          setVerificarRegistro(true);
+        })
+        .catch(() => {
+          setVerificarRegistro(false);
+        });
+
+      setValidarForm(false);
+    } else {
+      setValidarForm(true);
+    }
 
     limpiarInputs();
   };
@@ -126,6 +149,15 @@ export default function NuevoEquipo() {
                 </div>
               </div>
               <Button>Guardar</Button>
+              {verificarRegistro && (
+                <h4 className="success">Equipo Registrado.</h4>
+              )}
+              {verificarRegistro === false && (
+                <h4 className="error">Hubo un error al Registrar Equipo.</h4>
+              )}
+              {validarForm && (
+                <h4 className="error">Todos los campos son obligatorios.</h4>
+              )}
             </form>
           </div>
         </section>
@@ -170,6 +202,14 @@ export default function NuevoEquipo() {
           justify-content: space-between;
         }
         h1 {
+          text-align: center;
+          color: red;
+        }
+        .success {
+          text-align: center;
+          color: green;
+        }
+        .error {
           text-align: center;
           color: red;
         }

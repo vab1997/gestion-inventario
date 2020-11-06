@@ -1,13 +1,27 @@
 import Button from "components/Button";
 import Avatar from "components/Avatar";
+import { signout } from "firebase/client";
+import { useRouter } from "next/router";
 
 export default function Header() {
+  const router = useRouter();
+
+  const handleClick = () => {
+    signout()
+      .then(() => {
+        router.push("/");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <>
       <header>
         <h3>Gestion Inventario</h3>
         <Avatar />
-        <Button>Cerrar Sesión</Button>
+        <Button onClick={handleClick}>Cerrar Sesión</Button>
       </header>
       <style jsx>{`
         header {

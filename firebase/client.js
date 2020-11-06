@@ -62,6 +62,10 @@ export const onAuthStateChanged = (onchange) => {
   });
 };
 
+export const signout = () => {
+  return firebase.auth().signOut();
+};
+
 export const registrarEquiposPerifericos = ({
   codigo,
   descripcion,
