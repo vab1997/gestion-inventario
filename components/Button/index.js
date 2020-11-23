@@ -20,6 +20,12 @@ export default function Button({ children, onClick, title }) {
           user-select: none;
           outline: none;
         }
+        button > :global(svg) {
+          margin-right: 8px;
+        }
+        button:hover {
+          opacity: 0.7;
+        }
       `}</style>
     </>
   );

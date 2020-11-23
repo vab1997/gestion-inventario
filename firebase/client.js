@@ -131,4 +131,24 @@ export const actualizarEquipo = ({
   db.collection("perifericos")
     .doc(idPeriferico)
     .update({ monitor: monitor, teclado: teclado, mouse: mouse });
+
+  db.collection("historicoCambios").add({
+    idEquipo,
+    descripcion,
+    monitor,
+    teclado,
+    mouse,
+    fecha: firebase.firestore.Timestamp.fromDate(new Date()),
+  });
+};
+
+export const buscarHistoricoEquipo = (id, callback) => {
+  return db
+    .collection("historicoCambios")
+    .where("idEquipo", "==", `${id}`)
+    .get()
+    .then((snapshot) => {
+      const cambios = snapshot.docs.map(mapObject);
+      callback(cambios);
+    });
 };

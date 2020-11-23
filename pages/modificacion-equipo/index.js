@@ -127,7 +127,7 @@ export default function ModificacionEquipo() {
                   <label>Codigo: </label>
                   <Input
                     type={"text"}
-                    placeholder={"Nombre"}
+                    placeholder={"Codigo"}
                     value={codigo}
                     onChange={(e) => setCodigo(e.target.value)}
                   />

@@ -4,7 +4,7 @@ import Gestion from "components/icons/Gestion";
 export default function Sidebar() {
   return (
     <>
-      <div>
+      <nav>
         <h2>Menu</h2>
         <ul>
           <li>
@@ -16,25 +16,25 @@ export default function Sidebar() {
             </Link>
           </li>
           <li>
-            <Link href="">
+            <Link href="/historico-cambios">
               <a>
                 <span>Historicos de Cambios</span>
               </a>
             </Link>
           </li>
           <li>
-            <Link href="">
+            <Link href="/ubicacion-equipo">
               <a>
                 <span>Ubicación de Equipos</span>
               </a>
             </Link>
           </li>
         </ul>
-      </div>
+      </nav>
       <style jsx>{`
-        div {
+        nav {
           background: #eee;
-          padding: 0 8px 8px 12px;
+          padding: 0 8px 8px 0;
           height: 100%;
           width: 20%;
           border: 1px solid #eee;
@@ -45,6 +45,7 @@ export default function Sidebar() {
         }
         ul {
           list-style: none;
+          widht: 100%;
           margin-top: 0;
         }
         li {
@@ -52,6 +53,10 @@ export default function Sidebar() {
           font-size: 1.2em;
           transition: all 0.15s linear;
           cursor: pointer;
+          widht: 100%;
+        }
+        ul li:hover {
+          background-color: white;
         }
         a {
           color: black;

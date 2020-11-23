@@ -116,7 +116,7 @@ export default function BajaEquipo() {
                   <label>Codigo: </label>
                   <Input
                     type={"text"}
-                    placeholder={"Nombre"}
+                    placeholder={"Codigo"}
                     value={codigo}
                     onChange={(e) => setCodigo(e.target.value)}
                   />
