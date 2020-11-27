@@ -4,19 +4,19 @@ import Sidebar from "components/Sidebar";
 import Detalle from "components/Detalle";
 import Button from "components/Button";
 import useEquipos from "hooks/useEquipos";
-import { firestore } from "firebase/admin";
-import Link from "next/link";
 import Volver from "components/icons/Volver";
 
+import { firestore } from "firebase/admin";
+import Link from "next/link";
+
 export default function VerDetalle(props) {
-  console.log(props.codigo);
-  const [equipo, setEquipo] = useState(props);
+  const equipo = props;
   const [periferico, setPeriferico] = useState();
+  const [proveedor, setProveedor] = useState();
 
   const equiposPeri = useEquipos();
 
-  const { perifericos } = equiposPeri;
-  // console.log(equipos, perifericos);
+  const { perifericos, proveedores } = equiposPeri;
 
   useEffect(() => {
     if (perifericos) {
@@ -26,7 +26,14 @@ export default function VerDetalle(props) {
         )
       );
     }
-  }, [perifericos]);
+    if (proveedores) {
+      setProveedor(
+        proveedores.filter(
+          (proveedor) => proveedor.codigoEquipo === props.codigo
+        )
+      );
+    }
+  }, [perifericos, proveedores]);
 
   return (
     <>
@@ -36,7 +43,13 @@ export default function VerDetalle(props) {
         <section>
           <h1>Detalle Equipo</h1>
           <div className="card">
-            {periferico && <Detalle equipo={equipo} periferico={periferico} />}
+            {periferico && proveedor && (
+              <Detalle
+                equipo={equipo}
+                periferico={periferico}
+                proveedor={proveedor}
+              />
+            )}
           </div>
           <Link href="/ubicacion-equipo">
             <a>

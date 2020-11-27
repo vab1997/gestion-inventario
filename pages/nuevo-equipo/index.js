@@ -1,11 +1,15 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Header from "components/Header";
 import Sidebar from "components/Sidebar";
 import Input from "components/Input";
 import Button from "components/Button";
 
-import { registrarEquiposPerifericos } from "firebase/client";
+import {
+  registrarEquiposPerifericos,
+  obtenerUbicaciones,
+} from "firebase/client";
 import Link from "next/link";
+import Head from "next/head";
 
 export default function NuevoEquipo() {
   const [codigo, setCodigo] = useState("");
@@ -16,8 +20,20 @@ export default function NuevoEquipo() {
   const [teclado, setTeclado] = useState("");
   const [mouse, setMouse] = useState("");
 
+  const [usuario, setUsuario] = useState("");
+  const [cuil, setCuil] = useState("");
+  const [nombre, setNombre] = useState("");
+  const [apellido, setApellido] = useState("");
+  const [garantia, setGarantia] = useState("");
+
+  const [ubicaciones, setUbicaciones] = useState();
+
   const [verificarRegistro, setVerificarRegistro] = useState(null);
   const [validarForm, setValidarForm] = useState(null);
+
+  useEffect(() => {
+    obtenerUbicaciones(setUbicaciones);
+  }, [usuario]);
 
   const limpiarInputs = () => {
     setCodigo("");
@@ -27,6 +43,11 @@ export default function NuevoEquipo() {
     setMonitor("");
     setTeclado("");
     setMouse("");
+    setUsuario("");
+    setCuil("");
+    setNombre("");
+    setApellido("");
+    setGarantia("");
   };
 
   const handleSubmit = (e) => {
@@ -39,7 +60,12 @@ export default function NuevoEquipo() {
       ubicacion.trim() !== "" &&
       monitor.trim() !== "" &&
       teclado.trim() !== "" &&
-      mouse.trim() !== ""
+      mouse.trim() !== "" &&
+      usuario.trim() !== "" &&
+      cuil.trim() !== "" &&
+      nombre.trim() !== "" &&
+      apellido.trim() !== "" &&
+      garantia.trim() !== ""
     ) {
       registrarEquiposPerifericos({
         codigo,
@@ -49,6 +75,11 @@ export default function NuevoEquipo() {
         monitor,
         teclado,
         mouse,
+        usuario,
+        cuil,
+        nombre,
+        apellido,
+        garantia,
       })
         .then(() => {
           setVerificarRegistro(true);
@@ -67,6 +98,10 @@ export default function NuevoEquipo() {
 
   return (
     <>
+      <Head>
+        <title>Nuevo Equipo</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <Header />
       <div className="container">
         <Sidebar />
@@ -116,11 +151,23 @@ export default function NuevoEquipo() {
                     onChange={(e) => setFecha(e.target.value)}
                   />
                   <label>Ubicación: </label>
+                  <select onChange={(e) => setUbicacion(e.target.value)}>
+                    <option disabled selected>
+                      Seleccionar Ubicación
+                    </option>
+                    {ubicaciones &&
+                      ubicaciones.map(({ nombre }) => (
+                        <option key={nombre} value={nombre}>
+                          {nombre}
+                        </option>
+                      ))}
+                  </select>
+                  <label>Garantía:</label>
                   <Input
-                    type={"text"}
-                    placeholder={"Ubicación en la Empresa"}
-                    value={ubicacion}
-                    onChange={(e) => setUbicacion(e.target.value)}
+                    type={"date"}
+                    placeholder={"Garantía"}
+                    value={garantia}
+                    onChange={(e) => setGarantia(e.target.value)}
                   />
                 </div>
                 <div className="inputs">
@@ -145,6 +192,38 @@ export default function NuevoEquipo() {
                     placeholder={"Mouse"}
                     value={mouse}
                     onChange={(e) => setMouse(e.target.value)}
+                  />
+                  <h3>Usuarios Asignados</h3>
+                  <label>Usuarios: </label>
+                  <Input
+                    type={"text"}
+                    placeholder={"Usuarios"}
+                    value={usuario}
+                    onChange={(e) => setUsuario(e.target.value)}
+                  />
+                </div>
+                <div className="inputs">
+                  <h3>Datos Proveedor</h3>
+                  <label>CUIL:</label>
+                  <Input
+                    type={"text"}
+                    placeholder={"CUIL"}
+                    value={cuil}
+                    onChange={(e) => setCuil(e.target.value)}
+                  />
+                  <label>Nombre:</label>
+                  <Input
+                    type={"text"}
+                    placeholder={"Nombre"}
+                    value={nombre}
+                    onChange={(e) => setNombre(e.target.value)}
+                  />
+                  <label>Apellido:</label>
+                  <Input
+                    type={"text"}
+                    placeholder={"Apellido"}
+                    value={apellido}
+                    onChange={(e) => setApellido(e.target.value)}
                   />
                 </div>
               </div>
@@ -173,7 +252,6 @@ export default function NuevoEquipo() {
           width: 100%;
           height: 100%;
           padding: 4px 0 4px 16px;
-          overflow: hidden;
         }
         .formulario {
           display: flex;
@@ -183,11 +261,12 @@ export default function NuevoEquipo() {
           border-radius: 16px;
           padding: 8px;
           margin-right: 16px;
+          margin-bottom: 8px;
         }
         .botones {
           display: flex;
           justify-content: center;
-          margin: 8px;
+          margin-buttom: 4px;
         }
         .inputs-container {
           display: flex;
@@ -204,6 +283,15 @@ export default function NuevoEquipo() {
         h1 {
           text-align: center;
           color: red;
+        }
+        select {
+          font-size: 16px;
+          border-radius: 50px;
+          border: solid 1px;
+          width: 100%;
+          margin: 8px 0 8px 0;
+          padding: 8px;
+          outline: none;
         }
         .success {
           text-align: center;

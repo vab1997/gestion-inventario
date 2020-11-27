@@ -4,6 +4,7 @@ import Sidebar from "components/Sidebar";
 import Button from "components/Button";
 import Historico from "components/Historico";
 import { buscarHistoricoEquipo } from "firebase/client";
+import Head from "next/head";
 import Link from "next/link";
 import Volver from "components/icons/Volver";
 import { useRouter } from "next/router";
@@ -20,6 +21,11 @@ export default function VerDetalle() {
 
   return (
     <>
+      <Head>
+        <title>Historico</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+
       <Header />
       <div className="container">
         <Sidebar />

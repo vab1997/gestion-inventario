@@ -5,10 +5,12 @@ import Equipo from "components/Equipo";
 import useUser from "hooks/useUser";
 
 import { obtenerEquipos } from "firebase/client";
+import Head from "next/head";
 
 export default function HistoricoCambios() {
   const [equipos, setEquipos] = useState();
   const [perifericos, setPerifericos] = useState();
+  const [proveedores, setProveedores] = useState();
 
   const user = useUser();
 
@@ -18,7 +20,7 @@ export default function HistoricoCambios() {
     let unsubscribe;
 
     if (user) {
-      obtenerEquipos(setEquipos, setPerifericos);
+      obtenerEquipos(setEquipos, setPerifericos, setProveedores);
     }
 
     return () => unsubscribe && unsubscribe();
@@ -26,6 +28,11 @@ export default function HistoricoCambios() {
 
   return (
     <>
+      <Head>
+        <title>Historico Cambios</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+
       <Header />
       <div className="container">
         <Sidebar />

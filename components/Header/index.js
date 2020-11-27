@@ -2,6 +2,7 @@ import Button from "components/Button";
 import Avatar from "components/Avatar";
 import { signout } from "firebase/client";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 export default function Header() {
   const router = useRouter();
@@ -19,7 +20,11 @@ export default function Header() {
   return (
     <>
       <header>
-        <h3>Gestion Inventario</h3>
+        <Link href="/home">
+          <a>
+            <h3>Gestion Inventario</h3>
+          </a>
+        </Link>
         <Avatar />
         <Button onClick={handleClick}>Cerrar Sesión</Button>
       </header>
@@ -33,6 +38,10 @@ export default function Header() {
           font-size: 16px;
           position: sticky;
           top: 0;
+        }
+        a {
+          text-decoration: none;
+          color: black;
         }
       `}</style>
     </>

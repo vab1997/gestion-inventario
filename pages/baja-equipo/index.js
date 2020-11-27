@@ -4,6 +4,7 @@ import Sidebar from "components/Sidebar";
 import Input from "components/Input";
 import Button from "components/Button";
 import Link from "next/link";
+import Head from "next/head";
 
 import useSearch from "hooks/useSearch";
 import { obtenerEquipos, bajaEquipo } from "firebase/client";
@@ -17,18 +18,24 @@ export default function BajaEquipo() {
   const [teclado, setTeclado] = useState("");
   const [mouse, setMouse] = useState("");
 
+  const [usuario, setUsuario] = useState("");
+  const [cuil, setCuil] = useState("");
+  const [nombre, setNombre] = useState("");
+  const [apellido, setApellido] = useState("");
+  const [garantia, setGarantia] = useState("");
+
   const [buscar, setBuscar] = useState("");
   const [equipos, setEquipos] = useState();
   const [perifericos, setPerifericos] = useState();
+  const [proveedores, setProveedores] = useState();
 
   const [codigoBaja, setCodigoBaja] = useState({});
 
   useEffect(() => {
-    obtenerEquipos(setEquipos, setPerifericos);
+    obtenerEquipos(setEquipos, setPerifericos, setProveedores);
   }, []);
 
   const limpiarInputs = () => {
-    setCodigoBaja("");
     setCodigo("");
     setDescripcion("");
     setFecha("");
@@ -36,6 +43,11 @@ export default function BajaEquipo() {
     setMonitor("");
     setTeclado("");
     setMouse("");
+    setUsuario("");
+    setCuil("");
+    setNombre("");
+    setApellido("");
+    setGarantia("");
   };
 
   const setInputs = (filtro) => {
@@ -46,15 +58,21 @@ export default function BajaEquipo() {
     setMonitor(filtro.monitor);
     setTeclado(filtro.teclado);
     setMouse(filtro.mouse);
+    setUsuario(filtro.usuario);
+    setCuil(filtro.cuil);
+    setNombre(filtro.nombre);
+    setApellido(filtro.apellido);
+    setGarantia(filtro.garantia);
   };
 
   const handleClickBuscar = () => {
-    const filtro = useSearch(equipos, perifericos, buscar);
+    const filtro = useSearch(equipos, perifericos, proveedores, buscar);
 
     if (filtro !== undefined) {
       setCodigoBaja({
         idEquipo: filtro.idEquipo,
         idPeriferico: filtro.idPeriferico,
+        idProveedor: filtro.idProveedor,
       });
       setInputs(filtro);
     } else {
@@ -76,6 +94,10 @@ export default function BajaEquipo() {
 
   return (
     <>
+      <Head>
+        <title>Baja Equipo</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <Header />
       <div className="container">
         <Sidebar />
@@ -141,6 +163,13 @@ export default function BajaEquipo() {
                     value={ubicacion}
                     onChange={(e) => setUbicacion(e.target.value)}
                   />
+                  <label>Garantía:</label>
+                  <Input
+                    type={"date"}
+                    placeholder={"Garantía"}
+                    value={garantia}
+                    onChange={(e) => setGarantia(e.target.value)}
+                  />
                 </div>
                 <div className="inputs">
                   <h3>Perifericos del Equipo</h3>
@@ -164,6 +193,38 @@ export default function BajaEquipo() {
                     placeholder={"Mouse"}
                     value={mouse}
                     onChange={(e) => setMouse(e.target.value)}
+                  />
+                  <h3>Usuarios Asignados</h3>
+                  <label>Usuarios: </label>
+                  <Input
+                    type={"text"}
+                    placeholder={"Usuarios"}
+                    value={usuario}
+                    onChange={(e) => setUsuario(e.target.value)}
+                  />
+                </div>
+                <div className="inputs">
+                  <h3>Datos Proveedor</h3>
+                  <label>CUIL:</label>
+                  <Input
+                    type={"text"}
+                    placeholder={"CUIL"}
+                    value={cuil}
+                    onChange={(e) => setCuil(e.target.value)}
+                  />
+                  <label>Nombre:</label>
+                  <Input
+                    type={"text"}
+                    placeholder={"Nombre"}
+                    value={nombre}
+                    onChange={(e) => setNombre(e.target.value)}
+                  />
+                  <label>Apellido:</label>
+                  <Input
+                    type={"text"}
+                    placeholder={"Apellido"}
+                    value={apellido}
+                    onChange={(e) => setApellido(e.target.value)}
                   />
                 </div>
               </div>

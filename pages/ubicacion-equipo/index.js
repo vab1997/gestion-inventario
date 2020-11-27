@@ -1,13 +1,16 @@
+import { useEffect, useState } from "react";
 import Equipo from "components/Equipo";
 import Header from "components/Header";
 import Sidebar from "components/Sidebar";
-import { obtenerEquipos } from "firebase/client";
 import useUser from "hooks/useUser";
-import { useEffect, useState } from "react";
+
+import { obtenerEquipos } from "firebase/client";
+import Head from "next/head";
 
 export default function UbicacionEquipo() {
   const [equipos, setEquipos] = useState();
   const [perifericos, setPerifericos] = useState();
+  const [proveedores, setProveedores] = useState();
 
   const user = useUser();
 
@@ -17,7 +20,7 @@ export default function UbicacionEquipo() {
     let unsubscribe;
 
     if (user) {
-      obtenerEquipos(setEquipos, setPerifericos);
+      obtenerEquipos(setEquipos, setPerifericos, setProveedores);
     }
 
     return () => unsubscribe && unsubscribe();
@@ -25,6 +28,10 @@ export default function UbicacionEquipo() {
 
   return (
     <>
+      <Head>
+        <title>Ubicacion Equipos</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <Header />
       <div className="container">
         <Sidebar />

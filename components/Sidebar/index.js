@@ -38,6 +38,7 @@ export default function Sidebar() {
           height: 100%;
           width: 20%;
           border: 1px solid #eee;
+          overflow: hidden;
         }
         h2 {
           text-align: center;

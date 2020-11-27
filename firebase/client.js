@@ -74,18 +74,31 @@ export const registrarEquiposPerifericos = ({
   monitor,
   teclado,
   mouse,
+  usuario,
+  cuil,
+  nombre,
+  apellido,
+  garantia,
 }) => {
   db.collection("equipos").add({
     codigo,
     descripcion,
     fecha,
     ubicacion,
+    usuario,
+    garantia,
   });
-  return db.collection("perifericos").add({
+  db.collection("perifericos").add({
     codigoEquipo: codigo,
     monitor,
     teclado,
     mouse,
+  });
+  return db.collection("proveedores").add({
+    codigoEquipo: codigo,
+    cuil,
+    nombre,
+    apellido,
   });
 };
 
@@ -99,7 +112,18 @@ export const mapObject = (doc) => {
   };
 };
 
-export const obtenerEquipos = (callbackEquipos, callbackPerifericos) => {
+export const obtenerUbicaciones = (callback) => {
+  return db.collection("ubicaciones").onSnapshot(({ docs }) => {
+    const ubicaciones = docs.map(mapObject);
+    callback(ubicaciones);
+  });
+};
+
+export const obtenerEquipos = (
+  callbackEquipos,
+  callbackPerifericos,
+  callbackProveedores
+) => {
   db.collection("equipos").onSnapshot(({ docs }) => {
     const equipos = docs.map(mapObject);
     callbackEquipos(equipos);
@@ -108,11 +132,16 @@ export const obtenerEquipos = (callbackEquipos, callbackPerifericos) => {
     const perifericos = docs.map(mapObject);
     callbackPerifericos(perifericos);
   });
+  db.collection("proveedores").onSnapshot(({ docs }) => {
+    const proveedores = docs.map(mapObject);
+    callbackProveedores(proveedores);
+  });
 };
 
-export const bajaEquipo = ({ idEquipo, idPeriferico }) => {
+export const bajaEquipo = ({ idEquipo, idPeriferico, idProveedor }) => {
   db.collection("equipos").doc(idEquipo).delete();
-  return db.collection("perifericos").doc(idPeriferico).delete();
+  db.collection("perifericos").doc(idPeriferico).delete();
+  return db.collection("proveedores").doc(idProveedor).delete();
 };
 
 export const actualizarEquipo = ({
@@ -124,10 +153,14 @@ export const actualizarEquipo = ({
   monitor,
   teclado,
   mouse,
+  usuario,
 }) => {
-  db.collection("equipos")
-    .doc(idEquipo)
-    .update({ descripcion: descripcion, fecha: fecha, ubicacion: ubicacion });
+  db.collection("equipos").doc(idEquipo).update({
+    descripcion: descripcion,
+    fecha: fecha,
+    ubicacion: ubicacion,
+    usuario: usuario,
+  });
   db.collection("perifericos")
     .doc(idPeriferico)
     .update({ monitor: monitor, teclado: teclado, mouse: mouse });

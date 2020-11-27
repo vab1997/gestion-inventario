@@ -4,13 +4,11 @@ import { obtenerEquipos } from "firebase/client";
 export default function useEquipos() {
   const [equipos, setEquipos] = useState();
   const [perifericos, setPerifericos] = useState();
+  const [proveedores, setProveedores] = useState();
 
   useEffect(() => {
-    const obtenerEquiposPeri = async () => {
-      await obtenerEquipos(setEquipos, setPerifericos);
-    };
-    obtenerEquiposPeri();
+    obtenerEquipos(setEquipos, setPerifericos, setProveedores);
   }, []);
 
-  return { equipos, perifericos };
+  return { equipos, perifericos, proveedores };
 }

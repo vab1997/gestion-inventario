@@ -1,8 +1,4 @@
-import Button from "components/Button";
-import Link from "next/link";
-
-export default function Detalle({ equipo, periferico }) {
-  console.log(equipo, periferico);
+export default function Detalle({ equipo, periferico, proveedor }) {
   return (
     <>
       <article>
@@ -14,7 +10,11 @@ export default function Detalle({ equipo, periferico }) {
           <div>
             <h3>Ubicacion: {equipo.ubicacion}</h3>
             <span> · </span>
-            <h3>Usuarios: milo, andres</h3>
+            <h3>Usuarios: {equipo.usuario}</h3>
+            <span> · </span>
+            <h3>Garantía: {equipo.garantia}</h3>
+            <span> · </span>
+            <h3>Fecha: {equipo.fecha}</h3>
           </div>
           <h2>Perifericos</h2>
           <div>
@@ -23,6 +23,14 @@ export default function Detalle({ equipo, periferico }) {
             <h3>Teclado: {periferico[0].teclado}</h3>
             <span> · </span>
             <h3>Mouse: {periferico[0].mouse}</h3>
+          </div>
+          <h2>Proveedor</h2>
+          <div>
+            <h3>Cuil: {proveedor[0].cuil}</h3>
+            <span> · </span>
+            <h3>Nombre: {proveedor[0].nombre}</h3>
+            <span> · </span>
+            <h3>Apellido: {proveedor[0].apellido}</h3>
           </div>
         </section>
       </article>
