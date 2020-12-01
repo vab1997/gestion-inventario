@@ -60,6 +60,7 @@ export default function VerDetalle() {
         }
         .card {
           display: flex;
+          flex-direction: column;
           justify-content: center;
         }
         h1 {

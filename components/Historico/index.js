@@ -1,13 +1,20 @@
+import Computadora from "components/icons/Computadora";
 import TablaHistorico from "components/TablaHistorico";
 
 export default function Historico({ cambios }) {
-  console.log(cambios);
+  console.log(cambios[0].descripcion);
   return (
     <>
+      <div className="descripcion-equipo">
+        <Computadora width={40} height={40} />
+        <h2>
+          Equipo:
+          {cambios && cambios[0].descripcion}
+        </h2>
+      </div>
       <table>
         <thead>
           <tr>
-            <th>Equipo</th>
             <th>Fecha de Modificación</th>
             <th>Monitor</th>
             <th>Teclado</th>
@@ -53,6 +60,15 @@ export default function Historico({ cambios }) {
           background-color: #246355;
           border-bottom: solid 5px #0f362d;
           color: white;
+        }
+        h2 {
+          text-align: center;
+          margin-left: 4px;
+        }
+        .descripcion-equipo {
+          display: flex;
+          justify-content: center;
+          align-items: center;
         }
       `}</style>
     </>

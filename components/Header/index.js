@@ -1,6 +1,6 @@
 import Button from "components/Button";
 import Avatar from "components/Avatar";
-import InventarioLogo from "components/icons/InventarioLogo";
+import Inventario from "components/icons/InventarioLogo";
 import CerrarSesion from "components/icons/CerrarSesion";
 
 import { signout } from "firebase/client";
@@ -25,7 +25,7 @@ export default function Header() {
       <header>
         <Link href="/home">
           <a>
-            <InventarioLogo width={50} height={50} />
+            <Inventario width={50} height={50} />
             <h3>Gestión de Inventario</h3>
           </a>
         </Link>

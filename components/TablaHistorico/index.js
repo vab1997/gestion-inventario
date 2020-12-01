@@ -16,7 +16,6 @@ export default function TablaHistorico({
   return (
     <>
       <tr>
-        <td>{descripcion}</td>
         <td>
           <time title={createdAtFormated}>{timeago}</time>
         </td>
