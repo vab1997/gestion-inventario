@@ -79,6 +79,7 @@ export const registrarEquiposPerifericos = ({
   nombre,
   apellido,
   garantia,
+  user,
 }) => {
   db.collection("equipos").add({
     codigo,
@@ -87,6 +88,7 @@ export const registrarEquiposPerifericos = ({
     ubicacion,
     usuario,
     garantia,
+    user,
   });
   db.collection("perifericos").add({
     codigoEquipo: codigo,
@@ -116,6 +118,13 @@ export const obtenerUbicaciones = (callback) => {
   return db.collection("ubicaciones").onSnapshot(({ docs }) => {
     const ubicaciones = docs.map(mapObject);
     callback(ubicaciones);
+  });
+};
+
+export const obtenerUsuarios = (callback) => {
+  return db.collection("usuarios").onSnapshot(({ docs }) => {
+    const usuarios = docs.map(mapObject);
+    callback(usuarios);
   });
 };
 
@@ -154,6 +163,7 @@ export const actualizarEquipo = ({
   teclado,
   mouse,
   usuario,
+  user,
 }) => {
   db.collection("equipos").doc(idEquipo).update({
     descripcion: descripcion,
@@ -172,6 +182,7 @@ export const actualizarEquipo = ({
     teclado,
     mouse,
     fecha: firebase.firestore.Timestamp.fromDate(new Date()),
+    user,
   });
 };
 

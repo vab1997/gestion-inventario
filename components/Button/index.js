@@ -6,6 +6,9 @@ export default function Button({ children, onClick, title }) {
       </button>
       <style jsx>{`
         button {
+          display: flex;
+          align-items: center;
+          justify-content: center;
           background: black;
           border-radius: 9999px;
           border: 0;
@@ -22,6 +25,7 @@ export default function Button({ children, onClick, title }) {
         }
         button > :global(svg) {
           margin-right: 8px;
+          margin-left: 8px;
         }
         button:hover {
           opacity: 0.7;

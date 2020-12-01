@@ -7,6 +7,7 @@ export default function TablaHistorico({
   monitor,
   teclado,
   mouse,
+  user,
 }) {
   const createdAt = +fecha.toDate();
   const timeago = useTimeAgo(createdAt);
@@ -22,6 +23,7 @@ export default function TablaHistorico({
         <td>{monitor}</td>
         <td>{teclado}</td>
         <td>{mouse}</td>
+        <td>{user}</td>
       </tr>
 
       <style jsx>{`
@@ -35,6 +37,7 @@ export default function TablaHistorico({
         }
         td {
           padding: 10px;
+          text-align: center;
         }
       `}</style>
     </>

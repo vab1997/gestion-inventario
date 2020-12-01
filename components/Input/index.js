@@ -1,4 +1,10 @@
-export default function Input({ type, placeholder, value, onChange }) {
+export default function Input({
+  type,
+  placeholder,
+  value,
+  onChange,
+  disabled,
+}) {
   return (
     <>
       <input
@@ -7,6 +13,7 @@ export default function Input({ type, placeholder, value, onChange }) {
         autoComplete="off"
         value={value}
         onChange={onChange}
+        disabled={disabled}
       />
       <style jsx>{`
         input {

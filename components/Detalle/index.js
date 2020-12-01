@@ -1,12 +1,15 @@
+import Computadora from "components/icons/Computadora";
+
 export default function Detalle({ equipo, periferico, proveedor }) {
   return (
     <>
       <article>
         <header>
+          <Computadora width={40} height={40} />
           <h1>Equipo: {equipo.descripcion}</h1>
         </header>
         <section>
-          <h2>Informacion Equipo</h2>
+          <h2>Información Equipo</h2>
           <div>
             <h3>Ubicacion: {equipo.ubicacion}</h3>
             <span> · </span>
@@ -26,7 +29,7 @@ export default function Detalle({ equipo, periferico, proveedor }) {
           </div>
           <h2>Proveedor</h2>
           <div>
-            <h3>Cuil: {proveedor[0].cuil}</h3>
+            <h3>CUIL: {proveedor[0].cuil}</h3>
             <span> · </span>
             <h3>Nombre: {proveedor[0].nombre}</h3>
             <span> · </span>
@@ -36,12 +39,15 @@ export default function Detalle({ equipo, periferico, proveedor }) {
       </article>
       <style jsx>{`
         article {
-          width: 50%;
+          width: 80%;
           border: 1px solid #ccc;
           margin: 16px;
           padding: 10px 15px;
         }
         header {
+          display: flex;
+          justify-content: center;
+          align-items: center;
           border-bottom: 1px solid #eee;
           text-align: center;
           font-size: 25px;
@@ -50,6 +56,9 @@ export default function Detalle({ equipo, periferico, proveedor }) {
           display: flex;
           justify-content: center;
           align-items: center;
+        }
+        h1 {
+          margin-left: 4px;
         }
         h2 {
           text-decoration: underline;

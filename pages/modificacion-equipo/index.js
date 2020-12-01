@@ -5,9 +5,15 @@ import Input from "components/Input";
 import Button from "components/Button";
 import Link from "next/link";
 import Head from "next/head";
+import useUser from "hooks/useUser";
 
 import useSearch from "hooks/useSearch";
-import { obtenerEquipos, actualizarEquipo } from "firebase/client";
+import {
+  obtenerEquipos,
+  actualizarEquipo,
+  obtenerUsuarios,
+  obtenerUbicaciones,
+} from "firebase/client";
 
 export default function ModificacionEquipo() {
   const [codigo, setCodigo] = useState("");
@@ -31,11 +37,22 @@ export default function ModificacionEquipo() {
 
   const [codigoModificacion, setCodigoModificacion] = useState({});
 
+  const [ubicaciones, setUbicaciones] = useState();
+  const [usuarios, setUsuarios] = useState();
+
+  const [verificarActualizacion, setVerificarActualizacion] = useState(null);
+  const [validarCampos, setValidarCampos] = useState(null);
+
+  const user = useUser();
+
   useEffect(() => {
     obtenerEquipos(setEquipos, setPerifericos, setProveedores);
+    obtenerUbicaciones(setUbicaciones);
+    obtenerUsuarios(setUsuarios);
   }, []);
 
   const limpiarInputs = () => {
+    setBuscar("");
     setCodigo("");
     setDescripcion("");
     setFecha("");
@@ -83,21 +100,41 @@ export default function ModificacionEquipo() {
 
   const handleClickActualizar = () => {
     if (codigoModificacion) {
-      try {
-        actualizarEquipo({
-          idEquipo: codigoModificacion.idEquipo,
-          idPeriferico: codigoModificacion.idPeriferico,
-          descripcion,
-          fecha,
-          ubicacion,
-          monitor,
-          teclado,
-          mouse,
-          usuario,
-        });
-        limpiarInputs();
-      } catch (error) {
-        console.log(error);
+      if (
+        codigo.trim() !== "" &&
+        descripcion.trim() !== "" &&
+        fecha.trim() !== "" &&
+        ubicacion.trim() !== "" &&
+        monitor.trim() !== "" &&
+        teclado.trim() !== "" &&
+        mouse.trim() !== "" &&
+        usuario.trim() !== "" &&
+        cuil.trim() !== "" &&
+        nombre.trim() !== "" &&
+        apellido.trim() !== "" &&
+        garantia.trim() !== ""
+      ) {
+        try {
+          actualizarEquipo({
+            idEquipo: codigoModificacion.idEquipo,
+            idPeriferico: codigoModificacion.idPeriferico,
+            descripcion,
+            fecha,
+            ubicacion,
+            monitor,
+            teclado,
+            mouse,
+            usuario,
+            user: user.displayName,
+          });
+          setVerificarActualizacion(true);
+          limpiarInputs();
+        } catch (e) {
+          console.log(e);
+          setVerificarActualizacion(false);
+        }
+      } else {
+        setValidarCampos(true);
       }
     }
   };
@@ -169,12 +206,17 @@ export default function ModificacionEquipo() {
                     onChange={(e) => setFecha(e.target.value)}
                   />
                   <label>Ubicación: </label>
-                  <Input
-                    type={"text"}
-                    placeholder={"Ubicación en la Empresa"}
-                    value={ubicacion}
-                    onChange={(e) => setUbicacion(e.target.value)}
-                  />
+                  <select onChange={(e) => setUbicacion(e.target.value)}>
+                    <option disabled selected>
+                      Seleccionar Ubicación
+                    </option>
+                    {ubicaciones &&
+                      ubicaciones.map(({ nombre }) => (
+                        <option key={nombre} value={ubicacion}>
+                          {nombre}
+                        </option>
+                      ))}
+                  </select>
                   <label>Garantía:</label>
                   <Input
                     type={"date"}
@@ -206,14 +248,19 @@ export default function ModificacionEquipo() {
                     value={mouse}
                     onChange={(e) => setMouse(e.target.value)}
                   />
-                  <h3>Usuarios Asignados</h3>
-                  <label>Usuarios: </label>
-                  <Input
-                    type={"text"}
-                    placeholder={"Usuarios"}
-                    value={usuario}
-                    onChange={(e) => setUsuario(e.target.value)}
-                  />
+                  <h3>Usuario Asignado</h3>
+                  <label>Usuario: </label>
+                  <select onChange={(e) => setUsuario(e.target.value)}>
+                    <option disabled selected>
+                      Seleccionar Usuario
+                    </option>
+                    {usuarios &&
+                      usuarios.map(({ displayName }) => (
+                        <option key={displayName} value={usuario}>
+                          {displayName}
+                        </option>
+                      ))}
+                  </select>
                 </div>
                 <div className="inputs">
                   <h3>Datos Proveedor</h3>
@@ -223,6 +270,7 @@ export default function ModificacionEquipo() {
                     placeholder={"CUIL"}
                     value={cuil}
                     onChange={(e) => setCuil(e.target.value)}
+                    disabled={"disabled"}
                   />
                   <label>Nombre:</label>
                   <Input
@@ -230,6 +278,7 @@ export default function ModificacionEquipo() {
                     placeholder={"Nombre"}
                     value={nombre}
                     onChange={(e) => setNombre(e.target.value)}
+                    disabled={"disabled"}
                   />
                   <label>Apellido:</label>
                   <Input
@@ -237,10 +286,20 @@ export default function ModificacionEquipo() {
                     placeholder={"Apellido"}
                     value={apellido}
                     onChange={(e) => setApellido(e.target.value)}
+                    disabled={"disabled"}
                   />
                 </div>
               </div>
               <Button onClick={handleClickActualizar}>Actualizar</Button>
+              {verificarActualizacion && (
+                <h4 className="success">Equipo Actualizado.</h4>
+              )}
+              {verificarActualizacion === false && (
+                <h4 className="error">Hubo un error al Actualizar Equipo.</h4>
+              )}
+              {validarCampos && (
+                <h4 className="error">Todos los campos son obligatorios.</h4>
+              )}
             </div>
           </div>
         </section>
@@ -288,6 +347,23 @@ export default function ModificacionEquipo() {
           width: 50%;
           margin: 0 32px;
         }
+        .success {
+          text-align: center;
+          color: green;
+        }
+        .error {
+          text-align: center;
+          color: red;
+        }
+        select {
+          font-size: 16px;
+          border-radius: 50px;
+          border: solid 1px;
+          width: 100%;
+          margin: 8px 0 8px 0;
+          padding: 8px;
+          outline: none;
+        }
         h1 {
           text-align: center;
           color: red;
@@ -295,6 +371,9 @@ export default function ModificacionEquipo() {
         h4 {
           color: red;
           margin: 0 32px;
+        }
+        a {
+          text-decoration: none;
         }
       `}</style>
     </>

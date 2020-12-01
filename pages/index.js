@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Button from "components/Button";
 import Input from "components/Input";
-import Inventario from "components/icons/Inventario";
+import InventarioLogo from "components/icons/Inventario";
 import Gmail from "components/icons/Gmail";
 import GitHub from "components/icons/Github";
 import Head from "next/head";
@@ -57,7 +57,7 @@ export default function Home() {
 
       <section>
         <h1>Gestión de Inventario</h1>
-        <Inventario width={64} height={64} fill="#fff" />
+        <InventarioLogo width={64} height={64} fill="#fff" />
         {user === USER_STATE.NOT_LOGGED && (
           <div>
             <h2>Iniciar Sesión</h2>

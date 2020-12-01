@@ -52,11 +52,17 @@ export default function Equipo({ equipos, perifericos, boton }) {
         }
         th {
           padding: 20px;
+          text-align: center;
         }
         td {
           padding: 10px;
+          text-align: center;
         }
-
+        a {
+          display: flex;
+          justify-content: center;
+          text-decoration: none;
+        }
         thead {
           background-color: #246355;
           border-bottom: solid 5px #0f362d;
@@ -70,6 +76,7 @@ export default function Equipo({ equipos, perifericos, boton }) {
         tr:hover td {
           background-color: #369681;
           color: white;
+          text-align: center;
         }
       `}</style>
     </>

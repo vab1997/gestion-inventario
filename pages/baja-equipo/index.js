@@ -141,6 +141,7 @@ export default function BajaEquipo() {
                     placeholder={"Codigo"}
                     value={codigo}
                     onChange={(e) => setCodigo(e.target.value)}
+                    disabled={"disabled"}
                   />
                   <label>Descripcion: </label>
                   <Input
@@ -148,6 +149,7 @@ export default function BajaEquipo() {
                     placeholder={"Descripcion"}
                     value={descripcion}
                     onChange={(e) => setDescripcion(e.target.value)}
+                    disabled={"disabled"}
                   />
                   <label>Fecha: </label>
                   <Input
@@ -155,6 +157,7 @@ export default function BajaEquipo() {
                     placeholder={"Fecha"}
                     value={fecha}
                     onChange={(e) => setFecha(e.target.value)}
+                    disabled={"disabled"}
                   />
                   <label>Ubicación: </label>
                   <Input
@@ -162,6 +165,7 @@ export default function BajaEquipo() {
                     placeholder={"Ubicación en la Empresa"}
                     value={ubicacion}
                     onChange={(e) => setUbicacion(e.target.value)}
+                    disabled={"disabled"}
                   />
                   <label>Garantía:</label>
                   <Input
@@ -169,6 +173,7 @@ export default function BajaEquipo() {
                     placeholder={"Garantía"}
                     value={garantia}
                     onChange={(e) => setGarantia(e.target.value)}
+                    disabled={"disabled"}
                   />
                 </div>
                 <div className="inputs">
@@ -179,6 +184,7 @@ export default function BajaEquipo() {
                     placeholder={"Monitor"}
                     value={monitor}
                     onChange={(e) => setMonitor(e.target.value)}
+                    disabled={"disabled"}
                   />
                   <label>Teclado: </label>
                   <Input
@@ -186,6 +192,7 @@ export default function BajaEquipo() {
                     placeholder={"Teclado"}
                     value={teclado}
                     onChange={(e) => setTeclado(e.target.value)}
+                    disabled={"disabled"}
                   />
                   <label>Mouse: </label>
                   <Input
@@ -193,6 +200,7 @@ export default function BajaEquipo() {
                     placeholder={"Mouse"}
                     value={mouse}
                     onChange={(e) => setMouse(e.target.value)}
+                    disabled={"disabled"}
                   />
                   <h3>Usuarios Asignados</h3>
                   <label>Usuarios: </label>
@@ -201,6 +209,7 @@ export default function BajaEquipo() {
                     placeholder={"Usuarios"}
                     value={usuario}
                     onChange={(e) => setUsuario(e.target.value)}
+                    disabled={"disabled"}
                   />
                 </div>
                 <div className="inputs">
@@ -211,6 +220,7 @@ export default function BajaEquipo() {
                     placeholder={"CUIL"}
                     value={cuil}
                     onChange={(e) => setCuil(e.target.value)}
+                    disabled={"disabled"}
                   />
                   <label>Nombre:</label>
                   <Input
@@ -218,6 +228,7 @@ export default function BajaEquipo() {
                     placeholder={"Nombre"}
                     value={nombre}
                     onChange={(e) => setNombre(e.target.value)}
+                    disabled={"disabled"}
                   />
                   <label>Apellido:</label>
                   <Input
@@ -225,6 +236,7 @@ export default function BajaEquipo() {
                     placeholder={"Apellido"}
                     value={apellido}
                     onChange={(e) => setApellido(e.target.value)}
+                    disabled={"disabled"}
                   />
                 </div>
               </div>
@@ -283,6 +295,9 @@ export default function BajaEquipo() {
         h4 {
           color: red;
           margin: 0 32px;
+        }
+        a {
+          text-decoration: none;
         }
       `}</style>
     </>

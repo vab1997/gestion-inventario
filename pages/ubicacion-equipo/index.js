@@ -29,7 +29,7 @@ export default function UbicacionEquipo() {
   return (
     <>
       <Head>
-        <title>Ubicacion Equipos</title>
+        <title>Ubicación Equipos</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />

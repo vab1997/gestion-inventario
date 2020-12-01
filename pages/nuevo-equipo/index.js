@@ -3,10 +3,12 @@ import Header from "components/Header";
 import Sidebar from "components/Sidebar";
 import Input from "components/Input";
 import Button from "components/Button";
+import useUser from "hooks/useUser";
 
 import {
   registrarEquiposPerifericos,
   obtenerUbicaciones,
+  obtenerUsuarios,
 } from "firebase/client";
 import Link from "next/link";
 import Head from "next/head";
@@ -27,12 +29,16 @@ export default function NuevoEquipo() {
   const [garantia, setGarantia] = useState("");
 
   const [ubicaciones, setUbicaciones] = useState();
+  const [usuarios, setUsuarios] = useState();
 
   const [verificarRegistro, setVerificarRegistro] = useState(null);
   const [validarForm, setValidarForm] = useState(null);
 
+  const user = useUser();
+
   useEffect(() => {
     obtenerUbicaciones(setUbicaciones);
+    obtenerUsuarios(setUsuarios);
   }, [usuario]);
 
   const limpiarInputs = () => {
@@ -80,6 +86,7 @@ export default function NuevoEquipo() {
         nombre,
         apellido,
         garantia,
+        user: user.displayName,
       })
         .then(() => {
           setVerificarRegistro(true);
@@ -157,7 +164,7 @@ export default function NuevoEquipo() {
                     </option>
                     {ubicaciones &&
                       ubicaciones.map(({ nombre }) => (
-                        <option key={nombre} value={nombre}>
+                        <option key={nombre} value={ubicacion}>
                           {nombre}
                         </option>
                       ))}
@@ -193,14 +200,19 @@ export default function NuevoEquipo() {
                     value={mouse}
                     onChange={(e) => setMouse(e.target.value)}
                   />
-                  <h3>Usuarios Asignados</h3>
-                  <label>Usuarios: </label>
-                  <Input
-                    type={"text"}
-                    placeholder={"Usuarios"}
-                    value={usuario}
-                    onChange={(e) => setUsuario(e.target.value)}
-                  />
+                  <h3>Usuario Asignado</h3>
+                  <label>Usuario: </label>
+                  <select onChange={(e) => setUsuario(e.target.value)}>
+                    <option disabled selected>
+                      Seleccionar Usuario
+                    </option>
+                    {usuarios &&
+                      usuarios.map(({ displayName }) => (
+                        <option key={displayName} value={usuario}>
+                          {displayName}
+                        </option>
+                      ))}
+                  </select>
                 </div>
                 <div className="inputs">
                   <h3>Datos Proveedor</h3>
@@ -300,6 +312,9 @@ export default function NuevoEquipo() {
         .error {
           text-align: center;
           color: red;
+        }
+        a {
+          text-decoration: none;
         }
       `}</style>
     </>
