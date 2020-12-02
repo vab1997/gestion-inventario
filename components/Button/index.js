@@ -9,7 +9,7 @@ export default function Button({ children, onClick, title }) {
           display: flex;
           align-items: center;
           justify-content: center;
-          background: black;
+          background: #364250;
           border-radius: 9999px;
           border: 0;
           color: #fff;

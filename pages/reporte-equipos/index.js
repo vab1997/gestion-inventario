@@ -1,11 +1,30 @@
+import { useEffect, useState } from "react";
 import Button from "components/Button";
 import Volver from "components/icons/Volver";
 import useEquipos from "hooks/useEquipos";
 import Link from "next/link";
 
 export default function ReporteEquipos() {
-  const { equipos } = useEquipos();
+  const [equiposPerifericos, setEquiposPerifericos] = useState();
+  const [listadoEquipos, setListadoEquipos] = useState();
 
+  const { equipos, perifericos } = useEquipos();
+
+  useEffect(() => {
+    if (equipos && perifericos) {
+      setEquiposPerifericos(
+        equipos.map((equipo) => {
+          for (var i = 0; i < perifericos.length; i++) {
+            if (perifericos[i].codigoEquipo === equipo.codigo) {
+              return { equipo: equipo, periferico: perifericos[i] };
+            }
+          }
+        })
+      );
+    }
+  }, [equipos, perifericos]);
+
+  console.log(equiposPerifericos);
   return (
     <>
       <Link href="/ubicacion-equipo">
@@ -24,16 +43,22 @@ export default function ReporteEquipos() {
               <th>Equipo</th>
               <th>Fecha Alta</th>
               <th>Ubicación</th>
+              <th>Monitor</th>
+              <th>Teclado</th>
+              <th>Mouse</th>
               <th>Creado Por</th>
               <th>Garantía</th>
             </tr>
           </thead>
-          {equipos &&
-            equipos.map((equipo) => (
+          {equiposPerifericos &&
+            equiposPerifericos.map(({ equipo, periferico }) => (
               <tr>
                 <td>{equipo.descripcion}</td>
                 <td>{equipo.fecha}</td>
                 <td>{equipo.ubicacion}</td>
+                <td>{periferico.monitor}</td>
+                <td>{periferico.teclado}</td>
+                <td>{periferico.mouse}</td>
                 <td>{equipo.user}</td>
                 <td>{equipo.garantia}</td>
               </tr>
@@ -42,7 +67,7 @@ export default function ReporteEquipos() {
       </div>
       <style jsx>{`
         div {
-          margin: 16px 32px 16px 32px;
+          margin: 8px;
           border: 1px solid #bbb;
           height: 100%;
         }

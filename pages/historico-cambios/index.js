@@ -61,7 +61,7 @@ export default function HistoricoCambios() {
           overflow: hidden;
         }
         h1 {
-          color: red;
+          color: #364250;
           text-align: center;
         }
       `}</style>

@@ -5,8 +5,11 @@ export default function Detalle({ equipo, periferico, proveedor }) {
     <>
       <article>
         <header>
-          <Computadora width={40} height={40} />
-          <h1>Equipo: {equipo.descripcion}</h1>
+          <div>
+            <Computadora width={40} height={40} />
+            <h1>Equipo: {equipo.descripcion}</h1>
+          </div>
+          <h1>Codigo: {equipo.codigo}</h1>
         </header>
         <section>
           <h2>Información Equipo</h2>
@@ -47,6 +50,7 @@ export default function Detalle({ equipo, periferico, proveedor }) {
         header {
           display: flex;
           justify-content: center;
+          flex-direction: column;
           align-items: center;
           border-bottom: 1px solid #eee;
           text-align: center;
@@ -58,7 +62,7 @@ export default function Detalle({ equipo, periferico, proveedor }) {
           align-items: center;
         }
         h1 {
-          margin-left: 4px;
+          margin: 4px;
         }
         h2 {
           text-decoration: underline;

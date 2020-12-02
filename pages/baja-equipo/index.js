@@ -290,7 +290,7 @@ export default function BajaEquipo() {
         }
         h1 {
           text-align: center;
-          color: red;
+          color: #364250;
         }
         h4 {
           color: red;

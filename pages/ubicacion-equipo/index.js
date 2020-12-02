@@ -78,7 +78,7 @@ export default function UbicacionEquipo() {
           overflow: hidden;
         }
         h1 {
-          color: red;
+          color: #364250;
           text-align: center;
         }
         a {

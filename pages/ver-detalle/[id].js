@@ -79,7 +79,7 @@ export default function VerDetalle(props) {
           justify-content: center;
         }
         h1 {
-          color: red;
+          color: #364250;
           text-align: center;
         }
         a {

@@ -294,7 +294,7 @@ export default function NuevoEquipo() {
         }
         h1 {
           text-align: center;
-          color: red;
+          color: #364250;
         }
         select {
           font-size: 16px;
