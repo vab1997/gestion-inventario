@@ -2,9 +2,12 @@ import { useEffect, useState } from "react";
 import Equipo from "components/Equipo";
 import Header from "components/Header";
 import Sidebar from "components/Sidebar";
+import Button from "components/Button";
+import Reporte from "components/icons/Reporte";
 import useUser from "hooks/useUser";
 
 import { obtenerEquipos } from "firebase/client";
+import Link from "next/link";
 import Head from "next/head";
 
 export default function UbicacionEquipo() {
@@ -43,6 +46,16 @@ export default function UbicacionEquipo() {
               perifericos={perifericos}
               boton={"ver detalle"}
             />
+            <div className="reporte">
+              <Link href="/reporte-equipos">
+                <a>
+                  <Button>
+                    <Reporte width={24} height={24} fill="#fff" />
+                    Generar Reporte
+                  </Button>
+                </a>
+              </Link>
+            </div>
           </div>
         </section>
       </div>
@@ -51,6 +64,11 @@ export default function UbicacionEquipo() {
           display: flex;
           width: 100%;
           height: 100%;
+        }
+        .reporte {
+          display: flex;
+          justify-content: center;
+          margin-top: 8px;
         }
         section {
           border: 1px solid #eee;
@@ -62,6 +80,9 @@ export default function UbicacionEquipo() {
         h1 {
           color: red;
           text-align: center;
+        }
+        a {
+          text-decoration: none;
         }
       `}</style>
     </>

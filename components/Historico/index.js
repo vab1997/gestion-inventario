@@ -2,14 +2,14 @@ import Computadora from "components/icons/Computadora";
 import TablaHistorico from "components/TablaHistorico";
 
 export default function Historico({ cambios }) {
-  console.log(cambios[0].descripcion);
+  // console.log(cambios[0].descripcion);
   return (
     <>
       <div className="descripcion-equipo">
         <Computadora width={40} height={40} />
         <h2>
           Equipo:
-          {cambios && cambios[0].descripcion}
+          {cambios ? cambios[0].descripcion : null}
         </h2>
       </div>
       <table>
@@ -45,6 +45,7 @@ export default function Historico({ cambios }) {
             )
           )}
       </table>
+
       <style jsx>{`
         table {
           background-color: white;

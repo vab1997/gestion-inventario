@@ -9,6 +9,9 @@ import Link from "next/link";
 import Volver from "components/icons/Volver";
 import { useRouter } from "next/router";
 
+import ReactToPrint from "react-to-print";
+import Reporte from "components/icons/Reporte";
+
 export default function VerDetalle() {
   const [cambios, setCambios] = useState();
 
@@ -34,15 +37,29 @@ export default function VerDetalle() {
           <div className="card">
             {cambios && <Historico cambios={cambios} />}
           </div>
-
-          <Link href="/historico-cambios">
-            <a>
-              <Button>
-                <Volver width={16} height={16} fill="#fff" />
-                Volver
-              </Button>
-            </a>
-          </Link>
+          <div className="botones">
+            <Link href="/historico-cambios">
+              <a>
+                <Button>
+                  <Volver width={24} height={24} fill="#fff" />
+                  Volver
+                </Button>
+              </a>
+            </Link>
+            {cambios && (
+              <Link
+                href={`/reporte-cambios/[id]`}
+                as={`/reporte-cambios/${id}`}
+              >
+                <a>
+                  <Button>
+                    <Reporte width={24} height={24} fill="#fff" />
+                    Reporte
+                  </Button>
+                </a>
+              </Link>
+            )}
+          </div>
         </section>
       </div>
       <style jsx>{`
@@ -63,6 +80,11 @@ export default function VerDetalle() {
           flex-direction: column;
           justify-content: center;
         }
+        .botones {
+          display: flex;
+          justify-content: center;
+          margin-top: 16px;
+        }
         h1 {
           color: red;
           text-align: center;
@@ -76,30 +98,3 @@ export default function VerDetalle() {
     </>
   );
 }
-
-// export async function getServerSideProps(context) {
-//   const { params } = context;
-//   const { id } = params;
-//   console.log(id);
-
-//   return firestore
-//     .collection("historicoCambios")
-//     .where("idEquipo", "==", `${id}`)
-//     .get()
-//     .then((snapshot) => {
-//       const data = snapshot.docs.map((doc) => {
-//         const data = doc.data();
-//         return data;
-//       });
-
-//       JSON.stringify(data);
-
-//       const props = {
-//         ...data,
-//       };
-//       return { props: props };
-//     })
-//     .catch(() => {
-//       return { props: {} };
-//     });
-// }
