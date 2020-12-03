@@ -6,6 +6,7 @@ import Button from "components/Button";
 import Link from "next/link";
 import Head from "next/head";
 
+import useUser from "hooks/useUser";
 import useSearch from "hooks/useSearch";
 import { obtenerEquipos, bajaEquipo } from "firebase/client";
 
@@ -31,8 +32,16 @@ export default function BajaEquipo() {
 
   const [codigoBaja, setCodigoBaja] = useState({});
 
+  const user = useUser();
+
   useEffect(() => {
-    obtenerEquipos(setEquipos, setPerifericos, setProveedores);
+    let unsubscribe;
+
+    if (user) {
+      obtenerEquipos(setEquipos, setPerifericos, setProveedores);
+    }
+
+    return () => unsubscribe && unsubscribe();
   }, []);
 
   const limpiarInputs = () => {

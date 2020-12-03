@@ -37,8 +37,14 @@ export default function NuevoEquipo() {
   const user = useUser();
 
   useEffect(() => {
-    obtenerUbicaciones(setUbicaciones);
-    obtenerUsuarios(setUsuarios);
+    let unsubscribe;
+
+    if (user) {
+      obtenerUbicaciones(setUbicaciones);
+      obtenerUsuarios(setUsuarios);
+    }
+
+    return () => unsubscribe && unsubscribe();
   }, [usuario]);
 
   const limpiarInputs = () => {
@@ -164,7 +170,7 @@ export default function NuevoEquipo() {
                     </option>
                     {ubicaciones &&
                       ubicaciones.map(({ nombre }) => (
-                        <option key={nombre} value={ubicacion}>
+                        <option key={nombre} value={nombre}>
                           {nombre}
                         </option>
                       ))}
@@ -208,7 +214,7 @@ export default function NuevoEquipo() {
                     </option>
                     {usuarios &&
                       usuarios.map(({ displayName }) => (
-                        <option key={displayName} value={usuario}>
+                        <option key={displayName} value={displayName}>
                           {displayName}
                         </option>
                       ))}

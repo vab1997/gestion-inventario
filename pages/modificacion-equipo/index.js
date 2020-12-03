@@ -46,9 +46,15 @@ export default function ModificacionEquipo() {
   const user = useUser();
 
   useEffect(() => {
-    obtenerEquipos(setEquipos, setPerifericos, setProveedores);
-    obtenerUbicaciones(setUbicaciones);
-    obtenerUsuarios(setUsuarios);
+    let unsubscribe;
+
+    if (user) {
+      obtenerEquipos(setEquipos, setPerifericos, setProveedores);
+      obtenerUbicaciones(setUbicaciones);
+      obtenerUsuarios(setUsuarios);
+    }
+
+    return () => unsubscribe && unsubscribe();
   }, []);
 
   const limpiarInputs = () => {
@@ -190,6 +196,7 @@ export default function ModificacionEquipo() {
                     placeholder={"Codigo"}
                     value={codigo}
                     onChange={(e) => setCodigo(e.target.value)}
+                    disabled={"disabled"}
                   />
                   <label>Descripcion: </label>
                   <Input
@@ -204,15 +211,16 @@ export default function ModificacionEquipo() {
                     placeholder={"Fecha"}
                     value={fecha}
                     onChange={(e) => setFecha(e.target.value)}
+                    disabled={"disabled"}
                   />
                   <label>Ubicación: </label>
                   <select onChange={(e) => setUbicacion(e.target.value)}>
                     <option disabled selected>
-                      Seleccionar Ubicación
+                      {ubicacion ? ubicacion : "Seleccionar Usuario"}
                     </option>
                     {ubicaciones &&
                       ubicaciones.map(({ nombre }) => (
-                        <option key={nombre} value={ubicacion}>
+                        <option key={nombre} value={nombre}>
                           {nombre}
                         </option>
                       ))}
@@ -252,11 +260,11 @@ export default function ModificacionEquipo() {
                   <label>Usuario: </label>
                   <select onChange={(e) => setUsuario(e.target.value)}>
                     <option disabled selected>
-                      Seleccionar Usuario
+                      {usuario ? usuario : "Seleccionar Usuario"}
                     </option>
                     {usuarios &&
                       usuarios.map(({ displayName }) => (
-                        <option key={displayName} value={usuario}>
+                        <option key={displayName} value={displayName}>
                           {displayName}
                         </option>
                       ))}
