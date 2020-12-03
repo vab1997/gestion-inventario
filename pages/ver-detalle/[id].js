@@ -18,6 +18,8 @@ export default function VerDetalle(props) {
 
   const { perifericos, proveedores } = equiposPeri;
 
+  // console.log("asd");
+
   useEffect(() => {
     if (perifericos) {
       setPeriferico(

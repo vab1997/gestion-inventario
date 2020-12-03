@@ -17,16 +17,8 @@ export default function UbicacionEquipo() {
 
   const user = useUser();
 
-  // console.log(equipos, perifericos);
-
   useEffect(() => {
-    let unsubscribe;
-
-    if (user) {
-      obtenerEquipos(setEquipos, setPerifericos, setProveedores);
-    }
-
-    return () => unsubscribe && unsubscribe();
+    obtenerEquipos(setEquipos, setPerifericos, setProveedores);
   }, [user]);
 
   return (
