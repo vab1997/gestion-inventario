@@ -37,14 +37,8 @@ export default function NuevoEquipo() {
   const user = useUser();
 
   useEffect(() => {
-    let unsubscribe;
-
-    if (user) {
-      obtenerUbicaciones(setUbicaciones);
-      obtenerUsuarios(setUsuarios);
-    }
-
-    return () => unsubscribe && unsubscribe();
+    obtenerUbicaciones(setUbicaciones);
+    obtenerUsuarios(setUsuarios);
   }, [usuario]);
 
   const limpiarInputs = () => {

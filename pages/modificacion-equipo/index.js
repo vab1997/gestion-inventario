@@ -46,15 +46,9 @@ export default function ModificacionEquipo() {
   const user = useUser();
 
   useEffect(() => {
-    let unsubscribe;
-
-    if (user) {
-      obtenerEquipos(setEquipos, setPerifericos, setProveedores);
-      obtenerUbicaciones(setUbicaciones);
-      obtenerUsuarios(setUsuarios);
-    }
-
-    return () => unsubscribe && unsubscribe();
+    obtenerEquipos(setEquipos, setPerifericos, setProveedores);
+    obtenerUbicaciones(setUbicaciones);
+    obtenerUsuarios(setUsuarios);
   }, []);
 
   const limpiarInputs = () => {

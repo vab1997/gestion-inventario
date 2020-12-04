@@ -35,13 +35,7 @@ export default function BajaEquipo() {
   const user = useUser();
 
   useEffect(() => {
-    let unsubscribe;
-
-    if (user) {
-      obtenerEquipos(setEquipos, setPerifericos, setProveedores);
-    }
-
-    return () => unsubscribe && unsubscribe();
+    obtenerEquipos(setEquipos, setPerifericos, setProveedores);
   }, []);
 
   const limpiarInputs = () => {
