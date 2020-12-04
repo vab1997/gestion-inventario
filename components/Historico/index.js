@@ -2,7 +2,6 @@ import Computadora from "components/icons/Computadora";
 import TablaHistorico from "components/TablaHistorico";
 
 export default function Historico({ cambios }) {
-  console.log(cambios.length);
   return (
     <>
       <div className="descripcion-equipo">
