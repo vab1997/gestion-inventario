@@ -9,7 +9,7 @@ export default function Historico({ cambios }) {
         <Computadora width={40} height={40} />
         <h2>
           Equipo:
-          {cambios ? cambios[0].descripcion : null}
+          {cambios.length !== 0 ? cambios[0].descripcion : null}
         </h2>
       </div>
       <table>
@@ -45,6 +45,7 @@ export default function Historico({ cambios }) {
             )
           )}
       </table>
+      {cambios.length !== 0 ? null : <h3>No Presenta Cambio</h3>}
 
       <style jsx>{`
         table {
@@ -65,6 +66,10 @@ export default function Historico({ cambios }) {
         h2 {
           text-align: center;
           margin-left: 4px;
+        }
+        h3 {
+          text-align: center;
+          color: #364250;
         }
         .descripcion-equipo {
           display: flex;
