@@ -37,6 +37,8 @@ export default function NuevoEquipo() {
 
   const [mensajeExistencia, setMensajeExistencia] = useState(false);
 
+  console.log(mensajeExistencia);
+
   const { equipos } = useEquipos();
   // console.log(mensajeExistencia);
 
@@ -62,25 +64,27 @@ export default function NuevoEquipo() {
     setGarantia("");
   };
 
-  // const validarExistencia = () => {
-  //   if (equipos) {
-  //     const existencia =
-  //   }
-  //   return existencia;
-  // };
+  const validarExistencia = () => {
+    let existe = false;
+    const resultado = equipos.filter((equipo) => equipo.codigo === codigo);
+
+    if (resultado.length !== 0) {
+      existe = true;
+    }
+
+    return existe;
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (
-      equipos.map((equipo) => {
-        if (equipo.codigo === codigo) {
-          return true;
-        }
-      })
-    ) {
+    if (validarExistencia()) {
       setMensajeExistencia(true);
-    } else if (
+    } else {
+      setMensajeExistencia(false);
+    }
+
+    if (
       codigo.trim() !== "" &&
       descripcion.trim() !== "" &&
       fecha.trim() !== "" &&
@@ -92,8 +96,7 @@ export default function NuevoEquipo() {
       cuil.trim() !== "" &&
       nombre.trim() !== "" &&
       apellido.trim() !== "" &&
-      garantia.trim() !== "" &&
-      validarExistencia()
+      garantia.trim() !== ""
     ) {
       registrarEquiposPerifericos({
         codigo,
