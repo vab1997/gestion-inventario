@@ -24,6 +24,14 @@ export default function ReporteEquipos() {
     }
   }, [equipos, perifericos]);
 
+  console.log(
+    equipos &&
+      equipos.map((equipo) => {
+        // console.log(new Date("2020/12/04"), equipo.garantia);
+        console.log(new Date(equipo.garantia) < new Date("2020/12/04") && true);
+      })
+  );
+
   return (
     <>
       <Link href="/ubicacion-equipo">
@@ -39,6 +47,7 @@ export default function ReporteEquipos() {
         <table>
           <thead>
             <tr>
+              <th>Codigo</th>
               <th>Equipo</th>
               <th>Fecha Alta</th>
               <th>Ubicación</th>
@@ -52,6 +61,7 @@ export default function ReporteEquipos() {
           {equiposPerifericos &&
             equiposPerifericos.map(({ equipo, periferico }) => (
               <tr>
+                <td>{equipo.codigo}</td>
                 <td>{equipo.descripcion}</td>
                 <td>{equipo.fecha}</td>
                 <td>{equipo.ubicacion}</td>
@@ -59,7 +69,11 @@ export default function ReporteEquipos() {
                 <td>{periferico.teclado}</td>
                 <td>{periferico.mouse}</td>
                 <td>{equipo.user}</td>
-                <td>{equipo.garantia}</td>
+                {new Date(equipo.garantia) < new Date("2020/12/04") ? (
+                  <td className="vencido">{equipo.garantia}</td>
+                ) : (
+                  <td>{equipo.garantia}</td>
+                )}
               </tr>
             ))}
         </table>
@@ -104,6 +118,10 @@ export default function ReporteEquipos() {
         }
         a {
           text-decoration: none;
+        }
+
+        .vencido {
+          color: red;
         }
       `}</style>
     </>

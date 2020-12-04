@@ -12,6 +12,7 @@ import {
 } from "firebase/client";
 import Link from "next/link";
 import Head from "next/head";
+import useEquipos from "hooks/useEquipos";
 
 export default function NuevoEquipo() {
   const [codigo, setCodigo] = useState("");
@@ -33,6 +34,11 @@ export default function NuevoEquipo() {
 
   const [verificarRegistro, setVerificarRegistro] = useState(null);
   const [validarForm, setValidarForm] = useState(null);
+
+  const [mensajeExistencia, setMensajeExistencia] = useState(false);
+
+  const { equipos } = useEquipos();
+  // console.log(mensajeExistencia);
 
   const user = useUser();
 
@@ -56,10 +62,25 @@ export default function NuevoEquipo() {
     setGarantia("");
   };
 
+  // const validarExistencia = () => {
+  //   if (equipos) {
+  //     const existencia =
+  //   }
+  //   return existencia;
+  // };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
     if (
+      equipos.map((equipo) => {
+        if (equipo.codigo === codigo) {
+          return true;
+        }
+      })
+    ) {
+      setMensajeExistencia(true);
+    } else if (
       codigo.trim() !== "" &&
       descripcion.trim() !== "" &&
       fecha.trim() !== "" &&
@@ -71,7 +92,8 @@ export default function NuevoEquipo() {
       cuil.trim() !== "" &&
       nombre.trim() !== "" &&
       apellido.trim() !== "" &&
-      garantia.trim() !== ""
+      garantia.trim() !== "" &&
+      validarExistencia()
     ) {
       registrarEquiposPerifericos({
         codigo,
@@ -249,6 +271,7 @@ export default function NuevoEquipo() {
               {validarForm && (
                 <h4 className="error">Todos los campos son obligatorios.</h4>
               )}
+              {mensajeExistencia && <h4 className="error">Equipo Existente</h4>}
             </form>
           </div>
         </section>
