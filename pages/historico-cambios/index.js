@@ -17,14 +17,8 @@ export default function HistoricoCambios() {
   // console.log(equipos, perifericos);
 
   useEffect(() => {
-    let unsubscribe;
-
-    if (user) {
-      obtenerEquipos(setEquipos, setPerifericos, setProveedores);
-    }
-
-    return () => unsubscribe && unsubscribe();
-  }, [user]);
+    obtenerEquipos(setEquipos, setPerifericos, setProveedores);
+  }, []);
 
   return (
     <>

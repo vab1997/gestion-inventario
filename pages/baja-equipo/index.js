@@ -32,8 +32,6 @@ export default function BajaEquipo() {
 
   const [codigoBaja, setCodigoBaja] = useState({});
 
-  const user = useUser();
-
   useEffect(() => {
     obtenerEquipos(setEquipos, setPerifericos, setProveedores);
   }, []);

@@ -15,11 +15,9 @@ export default function UbicacionEquipo() {
   const [perifericos, setPerifericos] = useState();
   const [proveedores, setProveedores] = useState();
 
-  const user = useUser();
-
   useEffect(() => {
     obtenerEquipos(setEquipos, setPerifericos, setProveedores);
-  }, [user]);
+  }, []);
 
   return (
     <>

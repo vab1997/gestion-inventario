@@ -39,7 +39,7 @@ export default function NuevoEquipo() {
   useEffect(() => {
     obtenerUbicaciones(setUbicaciones);
     obtenerUsuarios(setUsuarios);
-  }, [usuario]);
+  }, []);
 
   const limpiarInputs = () => {
     setCodigo("");

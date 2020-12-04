@@ -24,7 +24,6 @@ export default function ReporteEquipos() {
     }
   }, [equipos, perifericos]);
 
-  console.log(equiposPerifericos);
   return (
     <>
       <Link href="/ubicacion-equipo">

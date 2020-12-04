@@ -9,7 +9,6 @@ import Link from "next/link";
 import Volver from "components/icons/Volver";
 import { useRouter } from "next/router";
 
-import ReactToPrint from "react-to-print";
 import Reporte from "components/icons/Reporte";
 
 export default function VerDetalle() {
